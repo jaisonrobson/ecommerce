@@ -11,7 +11,8 @@ const HeroBanner = ({
     image,
     product,
     buttonText,
-    desc
+    desc,
+    targetItemSlug
   } = {},
 }) => {
   return (
@@ -30,7 +31,7 @@ const HeroBanner = ({
         />
 
         <div>
-          <Link href={`/product/${product}`}>
+          <Link href={`/product/${targetItemSlug}`}>
             <button type="button">{buttonText}</button>
           </Link>
 

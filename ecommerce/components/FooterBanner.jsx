@@ -15,6 +15,7 @@ const FooterBanner = ({
     product,
     buttonText,
     image,
+    targetItemSlug
   } = {},
 }) => {
   return (
@@ -37,7 +38,7 @@ const FooterBanner = ({
 
           <p>{desc}</p>
 
-          <Link href={`/product/${product}`}>
+          <Link href={`/product/${targetItemSlug}`}>
             <button type="buttton">{buttonText}</button>
           </Link>
         </div>
