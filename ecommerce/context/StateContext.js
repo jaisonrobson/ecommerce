@@ -8,9 +8,12 @@ export const useStateContext = () => useContext(Context)
 export const StateContext = ({ children }) => {
     const [showCart, setShowCart] = useState(false)
     const [cartItems, setCartItems] = useState([])
-    const [totalPrice, setTotalPrice] = useState()
+    const [totalPrice, setTotalPrice] = useState(0)
     const [totalQuantities, setTotalQuantities] = useState(0)
     const [quantity, setQuantity] = useState(1)
+
+    let foundProductToUpdate
+    let productToUpdateIndex
 
     const onAddCartItem = (productParam, quantityParam) => {
         const isProductInCart = cartItems.find(item => item._id === productParam._id)
@@ -38,6 +41,57 @@ export const StateContext = ({ children }) => {
         }
     }
 
+    const increaseCartItemQuantity = (id) => {
+        foundProductToUpdate = cartItems.find(item => item._id === id)
+        productToUpdateIndex = cartItems.findIndex(product => product._id === id)
+
+        const newCartItems = cartItems.filter(item => item._id !== id)
+
+        setCartItems([
+            ...newCartItems,
+            {
+                ...foundProductToUpdate,
+                quantity: foundProductToUpdate.quantity + 1
+            }
+        ])
+
+        setTotalPrice(prevTotalPrice => prevTotalPrice + foundProductToUpdate.price)
+
+        setTotalQuantities(prevTotalQty => prevTotalQty + 1)
+    }
+
+    const decreaseCartItemQuantity = (id) => {
+        foundProductToUpdate = cartItems.find(item => item._id === id)
+        productToUpdateIndex = cartItems.findIndex(product => product._id === id)
+
+        if (foundProductToUpdate.quantity <= 1) return
+
+        const newCartItems = cartItems.filter(item => item._id !== id)
+
+        setCartItems([
+            ...newCartItems,
+            {
+                ...foundProductToUpdate,
+                quantity: foundProductToUpdate.quantity - 1
+            }
+        ])
+
+        setTotalPrice(prevTotalPrice => prevTotalPrice - foundProductToUpdate.price)
+
+        setTotalQuantities(prevTotalQty => prevTotalQty - 1)
+    }
+
+    const onRemoveCartItem = (product) => {
+        foundProductToUpdate = cartItems.find(item => item._id === product._id)
+        const newCartItems = cartItems.filter(item => item._id !== product._id)        
+
+        setTotalPrice(prevTotalPrice => prevTotalPrice - foundProductToUpdate.price * foundProductToUpdate.quantity)
+
+        setTotalQuantities(prevTotalQty => prevTotalQty - foundProductToUpdate.quantity)
+
+        setCartItems(newCartItems)
+    }
+
     const increaseQuantity = () => {
         setQuantity((prevQty) => prevQty+1)
     }
@@ -61,7 +115,10 @@ export const StateContext = ({ children }) => {
                 increaseQuantity,
                 decreaseQuantity,
                 onAddCartItem,
-                setShowCart
+                setShowCart,
+                increaseCartItemQuantity,
+                decreaseCartItemQuantity,
+                onRemoveCartItem
             }}
         >
             {children}
