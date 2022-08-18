@@ -3,6 +3,7 @@ import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-
 
 import { client, urlFor } from '../../lib/client'
 import { Product } from '../../components'
+import { useStateContext } from '../../context/StateContext'
 
 const ProductDetails = ({
     data: {
@@ -16,6 +17,7 @@ const ProductDetails = ({
     } = {},
 }) => {
     const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+    const {quantity, increaseQuantity, decreaseQuantity} = useStateContext()
 
     return (
     <div>
@@ -70,7 +72,7 @@ const ProductDetails = ({
                     <p className="quantity-desc">
                         <span
                             className="minus"
-                            onClick=""
+                            onClick={decreaseQuantity}
                         >
                             <AiOutlineMinus />
                         </span>
@@ -79,12 +81,12 @@ const ProductDetails = ({
                             className="num"
                             onClick=""
                         >
-                            0
+                            {quantity}
                         </span>
 
                         <span
                             className="plus"
-                            onClick=""
+                            onClick={increaseQuantity}
                         >
                             <AiOutlinePlus />
                         </span>
