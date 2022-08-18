@@ -7,10 +7,36 @@ export const useStateContext = () => useContext(Context)
 
 export const StateContext = ({ children }) => {
     const [showCart, setShowCart] = useState(false)
-    const [cartItems, setCartItems] = useState(0)
-    const [totalPrice, setTotalPrice] = useState(0)
+    const [cartItems, setCartItems] = useState([])
+    const [totalPrice, setTotalPrice] = useState()
     const [totalQuantities, setTotalQuantities] = useState(0)
     const [quantity, setQuantity] = useState(1)
+
+    const onAddCartItem = (productParam, quantityParam) => {
+        const isProductInCart = cartItems.find(item => item._id === productParam._id)
+
+        setTotalPrice(prevTotalPrice => prevTotalPrice + productParam.price * quantityParam)
+
+        setTotalQuantities(prevTotalQuantities => prevTotalQuantities + quantityParam)
+
+        if (isProductInCart) {
+            const updatedCartItems = cartItems.map(cartProduct => {
+                if (cartProduct._id === productParam._id) return {
+                    ...cartProduct,
+                    quantity: cartProduct.quantity + quantityParam
+                }
+            })
+
+            setCartItems(updatedCartItems)
+
+            toast.success(`${quantity} ${productParam.name} adicionado ao carrinho`)
+        } else {
+            let newProduct = productParam
+            newProduct.quantity = quantity
+
+            setCartItems([...cartItems, { ...newProduct }])
+        }
+    }
 
     const increaseQuantity = () => {
         setQuantity((prevQty) => prevQty+1)
@@ -33,7 +59,9 @@ export const StateContext = ({ children }) => {
                 totalQuantities,
                 quantity,
                 increaseQuantity,
-                decreaseQuantity
+                decreaseQuantity,
+                onAddCartItem,
+                setShowCart
             }}
         >
             {children}
