@@ -3,7 +3,7 @@ import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-
 
 import { client, urlFor } from '../../lib/client'
 import { Product } from '../../components'
-import { useStateContext } from '../../context/StateContext'
+import { useShoppingCartContext } from '../../contexts/ShoppingCartContext'
 
 const ProductDetails = ({
     data: {
@@ -20,7 +20,7 @@ const ProductDetails = ({
 
     const [selectedImageIndex, setSelectedImageIndex] = useState(0)
     
-    const {quantity, increaseQuantity, decreaseQuantity, onAddCartItem} = useStateContext()
+    const {quantity, increaseQuantity, decreaseQuantity, onAddCartItem} = useShoppingCartContext()
 
     return (
     <div>
@@ -43,6 +43,7 @@ const ProductDetails = ({
                             }
                             src={urlFor(item)}
                             onMouseEnter={() => setSelectedImageIndex(index)}
+                            key={item._id}
                         />
                     ))}
                 </div>

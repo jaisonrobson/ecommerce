@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 const Context = createContext()
 
-export const useStateContext = () => useContext(Context)
+export const useShoppingCartContext = () => useContext(Context)
 
-export const StateContext = ({ children }) => {
+export const ShoppingCartContext = ({ children }) => {
     const [showCart, setShowCart] = useState(false)
     const [cartItems, setCartItems] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
