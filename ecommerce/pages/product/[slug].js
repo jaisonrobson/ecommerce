@@ -19,8 +19,13 @@ const ProductDetails = ({
     } = selectedProduct
 
     const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+    const [quantity, setQuantity] = useState(1)
+
+    const increaseQuantity = () => setQuantity(prev => prev + 1)
+
+    const decreaseQuantity = () => setQuantity(prev => (prev-1 < 1) ? prev : prev - 1)
     
-    const {quantity, increaseQuantity, decreaseQuantity, onAddCartItem} = useShoppingCartContext()
+    const { onAddCartItem } = useShoppingCartContext()
 
     return (
     <div>
@@ -101,7 +106,7 @@ const ProductDetails = ({
                     <button
                         className="add-to-cart"
                         type="button"
-                        onClick={() => onAddCartItem(selectedProduct, quantity)}
+                        onClick={() => onAddCartItem(selectedProduct._id, quantity)}
                     >
                         Adicionar ao carrinho
                     </button>

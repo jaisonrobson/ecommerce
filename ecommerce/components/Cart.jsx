@@ -12,9 +12,9 @@ const Cart = () => {
 
   const {
     totalPrice,
-    totalQuantities,
+    totalItemsQuantity,
     cartItems,
-    setShowCart,
+    onHideCart,
     increaseCartItemQuantity,
     decreaseCartItemQuantity,
     onRemoveCartItem,
@@ -26,13 +26,13 @@ const Cart = () => {
         <button
           className="cart-heading"
           type="button"
-          onClick={() => setShowCart(false)}
+          onClick={() => onHideCart()}
         >
           <AiOutlineLeft />
 
           <span className="heading">Seu Carrinho</span>
 
-          <span className="cart-num-items">({totalQuantities} itens)</span>
+          <span className="cart-num-items">({totalItemsQuantity} itens)</span>
         </button>
 
         {cartItems.length < 1 && (
@@ -45,7 +45,7 @@ const Cart = () => {
               <button
                 className="btn"
                 type="button"
-                onClick={() => setShowCart(false)}
+                onClick={() => onHideCart()}
               >
                 Continuar comprando
               </button>
@@ -97,7 +97,7 @@ const Cart = () => {
                   <button
                     className="remove-item"
                     type="button"
-                    onClick={() => onRemoveCartItem(item)}
+                    onClick={() => onRemoveCartItem(item._id)}
                   >
                     <TiDeleteOutline />
                   </button>

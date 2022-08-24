@@ -6,7 +6,7 @@ import { Cart } from './'
 import { useShoppingCartContext } from '../contexts/ShoppingCartContext'
 
 const Navbar = () => {
-  const { showCart, setShowCart, totalQuantities } = useShoppingCartContext()
+  const { showCart, onShowCart, totalItemsQuantity } = useShoppingCartContext()
 
   return (
     <div className="navbar-container">
@@ -17,11 +17,11 @@ const Navbar = () => {
       <button
         className='cart-icon'
         type="button"
-        onClick={() => setShowCart(true)}
+        onClick={() => onShowCart()}
       >
         <AiOutlineShopping />
 
-        <span className='cart-item-qty'>{totalQuantities}</span>
+        <span className='cart-item-qty'>{totalItemsQuantity}</span>
       </button>
 
       {showCart && <Cart />}

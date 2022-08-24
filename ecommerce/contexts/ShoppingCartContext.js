@@ -1,5 +1,8 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react'
+import _ from 'lodash'
 import { toast } from 'react-hot-toast'
+
+import { client } from '../lib/client'
 
 const Context = createContext()
 
@@ -9,116 +12,99 @@ export const ShoppingCartContext = ({ children }) => {
     const [showCart, setShowCart] = useState(false)
     const [cartItems, setCartItems] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
-    const [totalQuantities, setTotalQuantities] = useState(0)
-    const [quantity, setQuantity] = useState(1)
+    const [totalItemsQuantity, setTotalItemsQuantity] = useState(0)
 
-    let foundProductToUpdate
-    let productToUpdateIndex
+    useEffect(() => {
+      calculateCart()
+    }, [cartItems])
+    
+    /* INTERNAL METHODS */
 
-    const onAddCartItem = (productParam, quantityParam) => {
-        const isProductInCart = cartItems.find(item => item._id === productParam._id)
+    const calculateCart = () => {
+        calculateCartTotalPrice()
+        calculateCartTotalItemsQuantity()
+    }
 
-        setTotalPrice(prevTotalPrice => prevTotalPrice + productParam.price * quantityParam)
+    const calculateCartTotalPrice = () =>
+        setTotalPrice(
+            _.reduce(
+                cartItems,
+                (result, item) => result += item.price * item.quantity,
+                0
+            )
+        )
 
-        setTotalQuantities(prevTotalQuantities => prevTotalQuantities + quantityParam)
+    const calculateCartTotalItemsQuantity = () =>
+        setTotalItemsQuantity(
+            _.reduce(
+                cartItems,
+                (result, item) => result += item.quantity,
+                0
+            )
+        )
 
-        if (isProductInCart) {
-            const updatedCartItems = cartItems.map(cartProduct => {
-                if (cartProduct._id === productParam._id) return {
-                    ...cartProduct,
-                    quantity: cartProduct.quantity + quantityParam
+    const onChangeCartItemQuantity = async (productId, quantity) => {
+        const product = await client.fetch(`*[_type == "product" && _id == "${productId}"]`)
+        
+        const cartItemSearch = _.find(cartItems, (item) => item._id == productId)
+
+        if (cartItemSearch) {
+            const newCartItems = _.map(cartItems, (item) => {
+                if (item._id == productId) {
+                    const newQuantity = item.quantity + quantity
+
+                    return {
+                        ...item,
+                        quantity: newQuantity > 0 ? newQuantity : 1
+                    }
                 }
+
+                return item
             })
 
-            setCartItems(updatedCartItems)
+            setCartItems(newCartItems)
+        }
+        else if (quantity > 0) {
+            const newCartItem = {
+                ...product[0],
+                quantity,
+            }
 
-            toast.success(`${quantity} ${productParam.name} adicionado ao carrinho`)
-        } else {
-            let newProduct = productParam
-            newProduct.quantity = quantity
-
-            setCartItems([...cartItems, { ...newProduct }])
+            setCartItems((prevItems) => [...prevItems, newCartItem])
         }
     }
 
-    const increaseCartItemQuantity = (id) => {
-        foundProductToUpdate = cartItems.find(item => item._id === id)
-        productToUpdateIndex = cartItems.findIndex(product => product._id === id)
+    /* EXTERNAL METHODS */
 
-        const newCartItems = cartItems.filter(item => item._id !== id)
+    const increaseCartItemQuantity = (productId) => onChangeCartItemQuantity(productId, 1)
 
-        setCartItems([
-            ...newCartItems,
-            {
-                ...foundProductToUpdate,
-                quantity: foundProductToUpdate.quantity + 1
-            }
-        ])
+    const decreaseCartItemQuantity = (productId) => onChangeCartItemQuantity(productId, -1)
 
-        setTotalPrice(prevTotalPrice => prevTotalPrice + foundProductToUpdate.price)
+    const onAddCartItem = (productId, quantity) => onChangeCartItemQuantity(productId, quantity)
 
-        setTotalQuantities(prevTotalQty => prevTotalQty + 1)
-    }
-
-    const decreaseCartItemQuantity = (id) => {
-        foundProductToUpdate = cartItems.find(item => item._id === id)
-        productToUpdateIndex = cartItems.findIndex(product => product._id === id)
-
-        if (foundProductToUpdate.quantity <= 1) return
-
-        const newCartItems = cartItems.filter(item => item._id !== id)
-
-        setCartItems([
-            ...newCartItems,
-            {
-                ...foundProductToUpdate,
-                quantity: foundProductToUpdate.quantity - 1
-            }
-        ])
-
-        setTotalPrice(prevTotalPrice => prevTotalPrice - foundProductToUpdate.price)
-
-        setTotalQuantities(prevTotalQty => prevTotalQty - 1)
-    }
-
-    const onRemoveCartItem = (product) => {
-        foundProductToUpdate = cartItems.find(item => item._id === product._id)
-        const newCartItems = cartItems.filter(item => item._id !== product._id)        
-
-        setTotalPrice(prevTotalPrice => prevTotalPrice - foundProductToUpdate.price * foundProductToUpdate.quantity)
-
-        setTotalQuantities(prevTotalQty => prevTotalQty - foundProductToUpdate.quantity)
+    const onRemoveCartItem = (productId) => {
+        const newCartItems = _.filter(cartItems, item => item._id != productId)
 
         setCartItems(newCartItems)
     }
 
-    const increaseQuantity = () => {
-        setQuantity((prevQty) => prevQty+1)
-    }
+    const onShowCart = () => setShowCart(true)
 
-    const decreaseQuantity = () => {
-        setQuantity((prevQty) => {
-            if (prevQty -1 < 1) return 1
-
-            return prevQty-1
-        })
-    }
+    const onHideCart = () => setShowCart(false)
 
     return (
         <Context.Provider
             value={{
                 showCart,
+                onShowCart,
+                onHideCart,                
                 cartItems,
-                totalPrice,
-                totalQuantities,
-                quantity,
-                increaseQuantity,
-                decreaseQuantity,
                 onAddCartItem,
-                setShowCart,
+                onRemoveCartItem,
                 increaseCartItemQuantity,
                 decreaseCartItemQuantity,
-                onRemoveCartItem
+                totalPrice,
+                totalItemsQuantity,
             }}
         >
             {children}
