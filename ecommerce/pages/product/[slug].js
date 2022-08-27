@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-icons/ai'
 
 import { client, urlFor } from '../../lib/client'
@@ -24,8 +24,14 @@ const ProductDetails = ({
     const increaseQuantity = () => setQuantity(prev => prev + 1)
 
     const decreaseQuantity = () => setQuantity(prev => (prev-1 < 1) ? prev : prev - 1)
+
+    const resetQuantity = () => setQuantity(1)
     
     const { onAddCartItem } = useShoppingCartContext()
+
+    useEffect(() => {
+        resetQuantity()
+    }, [selectedProduct._id])
 
     return (
     <div>
@@ -35,6 +41,7 @@ const ProductDetails = ({
                     <img
                         className="product-detail-image"
                         src={urlFor(image && image[selectedImageIndex])}
+                        key="bigImage"
                     />
                 </div>
 
@@ -48,7 +55,7 @@ const ProductDetails = ({
                             }
                             src={urlFor(item)}
                             onMouseEnter={() => setSelectedImageIndex(index)}
-                            key={item._id}
+                            key={item._key}
                         />
                     ))}
                 </div>
@@ -88,7 +95,6 @@ const ProductDetails = ({
 
                         <span
                             className="num"
-                            onClick=""
                         >
                             {quantity}
                         </span>
