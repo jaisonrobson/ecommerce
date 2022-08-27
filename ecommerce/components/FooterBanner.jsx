@@ -39,7 +39,7 @@ const FooterBanner = ({
           <p>{desc}</p>
 
           <Link href={`/product/${targetItemSlug}`}>
-            <button type="buttton">{buttonText}</button>
+            <button type="buttton" onClick={() => {}}>{buttonText}</button>
           </Link>
         </div>
 

@@ -120,7 +120,6 @@ const ProductDetails = ({
                     <button
                         className="buy-now"
                         type="button"
-                        onClick=""
                     >
                         Comprar agora
                     </button>

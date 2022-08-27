@@ -80,7 +80,6 @@ const Cart = () => {
 
                         <span
                             className="num"
-                            onClick=""
                         >
                           {item.quantity}
                         </span>
@@ -119,7 +118,7 @@ const Cart = () => {
               <button
                 className="btn"
                 type="button"
-                onClick=""
+                onClick={() => {}}
               >
                 Prosseguir com pagamento
               </button>

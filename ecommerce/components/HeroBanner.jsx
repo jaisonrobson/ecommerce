@@ -32,7 +32,7 @@ const HeroBanner = ({
 
         <div>
           <Link href={`/product/${targetItemSlug}`}>
-            <button type="button">{buttonText}</button>
+            <button type="button" onClick={() => {}}>{buttonText}</button>
           </Link>
 
           <div className="desc">
