@@ -1,19 +1,19 @@
 import React from 'react'
 import { Toaster } from 'react-hot-toast'
 
-import '../styles/globals.css'
+import 'styles/globals.css'
 
-import { Layout } from '../components'
-import { ShoppingCartContext } from '../contexts/ShoppingCartContext'
+import { MainLayout } from 'components'
+import { ShoppingCartContext } from 'contexts/ShoppingCartContext'
 
 function MyApp({ Component, pageProps }) {
   return (
     <ShoppingCartContext>
-      <Layout>
+      <MainLayout>
         <Toaster />
         
         <Component {...pageProps} />
-      </Layout>
+      </MainLayout>
     </ShoppingCartContext>
   )
 }

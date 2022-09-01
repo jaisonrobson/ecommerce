@@ -14,10 +14,10 @@ const StyledRoundedButton = styled.button`
     background-color: ${props => props.backgroundColor ? props.backgroundColor : "#f02d34" };
 `
 
-const RoundedButton = forwardRef(({ children, ...props }, ref) => (
+const RoundedButton = ({ children, ...props }, ref) => (
     <StyledRoundedButton {...props} ref={ref}>
         {children}
     </StyledRoundedButton>
-))
+)
 
-export default RoundedButton
+export default forwardRef(RoundedButton)

@@ -1,10 +1,9 @@
 import React from 'react'
 import Head from 'next/head'
 
-import Navbar from './Navbar'
-import Footer from './Footer'
+import { Navbar, Footer } from 'components'
 
-const Layout = ({ children }) => {
+const MainLayout = ({ children }) => {
   return (
     <div className="layout">
       <Head>
@@ -26,4 +25,4 @@ const Layout = ({ children }) => {
   )
 }
 
-export default Layout
+export default MainLayout

@@ -4,8 +4,8 @@ import { AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineShopping } from 
 import { TiDeleteOutline } from 'react-icons/ti'
 import toast from 'react-hot-toast'
 
-import { useShoppingCartContext } from '../contexts/ShoppingCartContext'
-import { urlFor } from '../lib/client'
+import { useShoppingCartContext } from 'contexts/ShoppingCartContext'
+import { urlFor } from 'lib/client'
 
 const Cart = () => {
   const cartRef = useRef()
