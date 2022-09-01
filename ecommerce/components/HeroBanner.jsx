@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Link from 'next/link'
 
 import { urlFor } from '../lib/client'
+import { RoundedButton } from './Buttons'
 
 const HeroBanner = ({
   data: {
@@ -32,7 +33,11 @@ const HeroBanner = ({
 
         <div>
           <Link href={`/product/${targetItemSlug}`}>
-            <button type="button" onClick={() => {}}>{buttonText}</button>
+            <RoundedButton
+              onClick={() => {}}
+            >
+              {buttonText}
+            </RoundedButton>
           </Link>
 
           <div className="desc">
