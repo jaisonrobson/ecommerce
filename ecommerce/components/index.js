@@ -1,4 +1,4 @@
-export { Image } from './embraced'
-export { Cart, Footer, FooterBanner, HeroBanner, Navbar, Product } from './views'
-export { RoundedButton } from './minimum'
 export { MainLayout } from './layout'
+export { Image } from './embraced'
+export { RoundedButton } from './minimum'
+export { Cart, Footer, FooterBanner, HeroBanner, Navbar, Product } from './views'
