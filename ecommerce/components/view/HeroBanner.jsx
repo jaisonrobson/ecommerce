@@ -1,9 +1,7 @@
 import React, { useRef } from 'react'
-import Link from 'next/link'
 
 import { urlFor } from 'lib/client'
-
-import { RoundedButton } from 'components'
+import { RoundedButton, Link } from 'components'
 
 const HeroBanner = ({
   data: {

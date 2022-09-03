@@ -1,8 +1,7 @@
 import React from 'react'
-import Link from 'next/link'
 import { AiOutlineShopping } from 'react-icons/ai'
 
-import { Cart } from 'components'
+import { Cart, Link } from 'components'
 import { useShoppingCartContext } from 'contexts/ShoppingCartContext'
 
 const Navbar = () => {

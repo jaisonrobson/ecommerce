@@ -1,6 +1,6 @@
 import React from 'react'
-import Link from 'next/link'
 
+import { Link } from 'components'
 import { urlFor } from 'lib/client'
 
 const Product = ({
