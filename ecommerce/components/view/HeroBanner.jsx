@@ -38,13 +38,28 @@ const HeroBanner = ({
           {largeText1}
         </H1>
         
-        <img
-          src={urlFor(image)}
+        <Image
+          src={urlFor(image).url()}
           alt="headphones"
-          className="hero-banner-image"
+          style={{
+            position: 'absolute',
+            top: '0%',
+            right: '20%',
+            width: '450px',
+            height: '450px',
+            backgroundColor: 'blue',
+          }}
+          mediaStyle={`
+            @media screen and (max-width:800px) {
+              width: 77%;
+              height: 62%;
+              top: -2%;
+              right: -6%;
+            }
+          `}
         />
 
-        <div>
+        <div style={{ backgroundColor: 'red', zIndex: '1000000000 !important' }}>
           <Link href={`/product/${targetItemSlug}`}>
             <RoundedButton
               onClick={() => {}}
