@@ -44,31 +44,39 @@ const HeroBanner = ({
           style={{
             position: 'absolute',
             top: '0%',
-            right: '20%',
+            right: '5%',
             width: '450px',
             height: '450px',
-            backgroundColor: 'blue',
           }}
           mediaStyle={`
             @media screen and (max-width:800px) {
               width: 77%;
               height: 62%;
-              top: -2%;
+              top: 10%;
               right: -6%;
             }
           `}
         />
 
-        <div style={{ backgroundColor: 'red', zIndex: '1000000000 !important' }}>
-          <Link href={`/product/${targetItemSlug}`}>
-            <RoundedButton
-              onClick={() => {}}
-            >
-              {buttonText}
-            </RoundedButton>
-          </Link>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}>
+          <div>
+            <Link href={`/product/${targetItemSlug}`}>
+              <RoundedButton>
+                {buttonText}
+              </RoundedButton>
+            </Link>
+          </div>
 
-          <div className="desc">
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row-reverse',
+            alignItems: 'flex-end',
+            height: '50px',
+          }}>
             <p>{desc}</p>
           </div>
         </div>

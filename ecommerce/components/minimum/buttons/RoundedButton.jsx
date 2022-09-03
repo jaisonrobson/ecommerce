@@ -14,8 +14,8 @@ const StyledRoundedButton = styled.button`
     background-color: ${props => props?.backgroundColor ? props.backgroundColor : "#f02d34" };
 `
 
-const RoundedButton = ({ children, ...props }, ref) => (
-    <StyledRoundedButton {...props} ref={ref}>
+const RoundedButton = ({ children, onClick = ()=> {}, ...props }, ref) => (
+    <StyledRoundedButton onClick={onClick} {...props} ref={ref}>
         {children}
     </StyledRoundedButton>
 )
