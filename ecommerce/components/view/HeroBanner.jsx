@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 
 import { urlFor } from 'lib/client'
-import { RoundedButton, Link } from 'components'
+import { RoundedButton, RoundedBanner, Link, H1, H3, P, Image } from 'components'
 
 const HeroBanner = ({
   data: {
@@ -16,13 +16,27 @@ const HeroBanner = ({
   } = {},
 }) => {
   return (
-    <div className="hero-banner-container">
+    <RoundedBanner>
       <div>
-        <p className="beats-solo">{smallText}</p>
+        <P style={{ fontSize: '20px' }}>{smallText}</P>
 
-        <h3>{midText}</h3>
+        <H3 style={{ fontSize: '4rem', marginTop: '4px' }}>{midText}</H3>
 
-        <h1>{largeText1}</h1>
+        <H1
+          style={{
+            color: 'white',
+            fontSize: '10em',
+            marginLeft: '-20px',
+            textTransform: 'uppercase',
+          }}
+          mediaStyle={`
+            @media screen and (max-width:800px) {
+              font-size: 50px;
+            }
+          `}
+        >
+          {largeText1}
+        </H1>
         
         <img
           src={urlFor(image)}
@@ -44,7 +58,7 @@ const HeroBanner = ({
           </div>
         </div>
       </div>
-    </div>
+    </RoundedBanner>
   )
 }
 
